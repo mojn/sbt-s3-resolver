@@ -8,6 +8,10 @@ object SbtS3Resolver extends Plugin {
   lazy val s3credentialsFile = 
     SettingKey[Option[String]]("s3-credentials-file", 
       "properties format file with amazon credentials to access S3")
+
+  // lazy val artifactsBucket = 
+  //   SettingKey[String]("artifacts-bucket", 
+  //     "bucket for releases")
  
   lazy val s3credentials = 
     SettingKey[Option[S3Credentials]]("s3-credentials", 
