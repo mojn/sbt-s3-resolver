@@ -38,18 +38,19 @@ object SbtS3Resolver extends Plugin {
     )(credentials: S3Credentials
     ): Resolver = {
 
-      val s3r = new ohnosequences.ivy.S3Resolver()
-
-      s3r.setName(name)
       
-      val fullPattern = url +"/"+ pattern
-      s3r.addArtifactPattern(fullPattern)
-      s3r.addIvyPattern(fullPattern)
 
       credentials match {
         case (user, pass) =>
-          s3r.setAccessKey(user)
-          s3r.setSecretKey(pass)
+          //s3r.setAccessKey(user)
+          //s3r.setSecretKey(pass)
+          val s3r = new ohnosequences.ivy.S3Resolver(name, user, pass)
+
+         // s3r.setName(name)
+      
+          val fullPattern = url +"/"+ pattern
+          s3r.addArtifactPattern(fullPattern)
+          s3r.addIvyPattern(fullPattern)
           new sbt.RawRepository(s3r)
       }
 

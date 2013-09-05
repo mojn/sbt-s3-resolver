@@ -11,12 +11,13 @@ version := "0.0.1"
 
 scalaVersion := "2.10.0"
 
-publishMavenStyle := true
 
-publishTo <<= (isSnapshot, s3resolver) { 
-                (snapshot,   resolver) => 
-  val prefix = if (snapshot) "snapshots" else "releases"
-  resolver("ohnosequences "+prefix+" S3 bucket", "s3://"+prefix+".ohnosequences.com")
+publishMavenStyle := false
+
+publishTo <<= (isSnapshot, s3credentials, artifactsBucket) {
+                (snapshot,   credentials, bucket) =>
+  val prefix = "private." + (if (snapshot) "snapshots" else "releases")
+  credentials map s3resolver("My "+prefix+" S3 bucket", "s3://"+prefix+"." + "intercrossing.com", Resolver.localBasePattern)
 }
 
 resolvers ++= Seq (
@@ -27,7 +28,7 @@ resolvers ++= Seq (
                     "Era7 Snapshots"      at "http://snapshots.era7.com.s3.amazonaws.com"
                   )
 
-s3credentialsFile in Global := Some("/home/evdokim/AwsCredentials.properties")
+s3credentialsFile in Global := Some("/home/evdokim/ohno.prop")
 
 
 scalacOptions ++= Seq(
