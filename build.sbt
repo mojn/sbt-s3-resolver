@@ -29,16 +29,18 @@ crossBuildingSettings
 
 CrossBuilding.crossSbtVersions := Seq("0.12", "0.13")
 
+s3credentialsFile := Some("credentials.properties")
 
-publishMavenStyle := true
+publishMavenStyle := false
 
 //// For publishing set s3credentialsFile (see readme)
 publishTo <<= (isSnapshot, s3credentials) { 
                 (snapshot,   credentials) => 
   val prefix = if (snapshot) "snapshots" else "releases"
   credentials map S3Resolver(
-      "Era7 "+prefix+" S3 bucket"
-    , "s3://"+prefix+".era7.com"
+      "Mojn "+prefix+" publish S3 bucket"
+    , "s3://"+prefix + ".public.mojn.com"
+    , Resolver.ivyStylePatterns
     ).toSbtResolver
 }
 
